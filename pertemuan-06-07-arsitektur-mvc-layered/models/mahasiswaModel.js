@@ -1,5 +1,5 @@
 // Mini Project - Pertemuan 6-7: Layer Model
-// TODO 1: lengkapi data awal & tiga fungsi akses data di bawah ini.
+// TODO 1: lengkapi data awal & tiga fungsi akses data di bawah
 
 let mahasiswa = [
   { id: 1, nama: "Andi", jurusan: "Sistem Informasi" },
@@ -7,16 +7,31 @@ let mahasiswa = [
 ];
 
 function getAll() {
-  // TODO: kembalikan seluruh data mahasiswa
+  // Mengembalikan seluruh data mahasiswa
+  return mahasiswa;
 }
 
 function getById(id) {
-  // TODO: cari & kembalikan satu data berdasarkan id
+  // Cari dan kembalikan satu data berdasarkan id
+  return mahasiswa.find((item) => item.id === id);
 }
 
 function create(data) {
-  // TODO: buat objek baru dengan id = mahasiswa.length + 1,
-  // gabungkan dengan `data`, simpan ke array, lalu kembalikan objek baru tsb
+  // Membuat objek mahasiswa baru
+  const mahasiswaBaru = {
+    id: mahasiswa.length + 1,
+    ...data,
+  };
+
+  // Simpan ke array
+  mahasiswa.push(mahasiswaBaru);
+
+  // Kembalikan data yang baru dibuat
+  return mahasiswaBaru;
 }
 
-module.exports = { getAll, getById, create };
+module.exports = {
+  getAll,
+  getById,
+  create,
+};
