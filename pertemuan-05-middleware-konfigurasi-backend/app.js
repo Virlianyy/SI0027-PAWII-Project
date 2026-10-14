@@ -137,6 +137,10 @@ app.delete("/mahasiswa/:id", (req, res) => {
   res.status(204).send();
 });
 
+// Route untuk mengetes error server
+app.get("/error", (req, res, next) => {
+  next(new Error("Contoh kesalahan server"));
+});
 
 // TODO 6: error-handling middleware
 app.use((err, req, res, next) => {
