@@ -1,74 +1,64 @@
-// Mini Project - Pertemuan 9-10: Controller Mahasiswa
-// TODO 2: lengkapi setiap handler agar memanggil Model Mongoose yang sesuai.
-
 const Mahasiswa = require("../models/mahasiswaModel");
 
+// GET /mahasiswa
 exports.getAll = async (req, res) => {
-  // TODO: ambil seluruh data dengan Mahasiswa.find(), sertakan .populate('prodiId')
-  // lalu kirim sebagai JSON
   try {
-    const mahasiswa = await Mahasiswa.find().populate('prodiId');
+    const mahasiswa = await Mahasiswa.find().populate("prodiId");
     res.status(200).json(mahasiswa);
   } catch (error) {
-    res.status(500).json({ message: 'Terjadi kesalahan server' });
-  } 
+    res.status(500).json({ message: error.message });
+  }
 };
 
+// GET /mahasiswa/:id
 exports.getById = async (req, res) => {
-  // TODO: ambil satu data dengan Mahasiswa.findById(req.params.id).populate('prodiId')
-  // kirim 404 dengan { message: 'Tidak ditemukan' } jika tidak ada
   try {
-    const mahasiswa = await Mahasiswa.findById(req.params.id).populate('prodiId');
+    const mahasiswa = await Mahasiswa.findById(req.params.id).populate("prodiId");
     if (!mahasiswa) {
-      return res.status(404).json({ message: 'Tidak ditemukan' });
-    } 
+      return res.status(404).json({ message: "Tidak ditemukan" });
+    }
     res.status(200).json(mahasiswa);
   } catch (error) {
-    res.status(500).json({ message: 'Terjadi kesalahan server' });
-  } 
+    res.status(500).json({ message: error.message });
+  }
 };
 
+// POST /mahasiswa
 exports.create = async (req, res) => {
-  // TODO: buat data baru dengan Mahasiswa.create(req.body), bungkus try/catch
-  // kirim response dengan status 201, atau 400 jika validasi gagal
   try {
     const mahasiswa = await Mahasiswa.create(req.body);
     res.status(201).json(mahasiswa);
   } catch (error) {
-    res.status(400).json({ message: 'Validasi gagal', error: error.message });
+    res.status(400).json({ message: error.message });
   }
 };
 
+// PUT /mahasiswa/:id
 exports.update = async (req, res) => {
-  // TODO: gunakan Mahasiswa.findByIdAndUpdate(req.params.id, req.body,
-  // { new: true, runValidators: true }), bungkus try/catch
   try {
     const mahasiswa = await Mahasiswa.findByIdAndUpdate(
-      req.params.id, 
-      req.body, 
+      req.params.id,
+      req.body,
       { new: true, runValidators: true }
     );
-
     if (!mahasiswa) {
-      return res.status(404).json({ message: 'Tidak ditemukan' });
+      return res.status(404).json({ message: "Tidak ditemukan" });
     }
-
     res.status(200).json(mahasiswa);
   } catch (error) {
-    res.status(500).json({ message: 'Terjadi kesalahan server' });
+    res.status(400).json({ message: error.message });
   }
 };
 
+// DELETE /mahasiswa/:id
 exports.remove = async (req, res) => {
-  // TODO: gunakan Mahasiswa.findByIdAndDelete(req.params.id),
-  // kirim status 204 jika berhasil, 404 jika tidak ditemukan
   try {
     const mahasiswa = await Mahasiswa.findByIdAndDelete(req.params.id);
     if (!mahasiswa) {
-      return res.status(404).json({ message: 'Tidak ditemukan' });
+      return res.status(404).json({ message: "Tidak ditemukan" });
     }
-    res.status(204).json({ message: 'Berhasil dihapus' });
+    res.status(204).send();
   } catch (error) {
-    res.status(500).json({ message: 'Terjadi kesalahan server' });
-  } 
+    res.status(500).json({ message: error.message });
+  }
 };
